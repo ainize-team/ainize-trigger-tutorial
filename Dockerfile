@@ -1,4 +1,4 @@
-FROM yeop2/gpt2-prideandprejudice
+FROM yeop2/gpt2-prideandprejudice:integration-tutorial
 
 WORKDIR /workspace
 
