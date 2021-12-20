@@ -1,4 +1,4 @@
-FROM pytorch/pytorch:1.9.0-cuda11.1-cudnn8-devel
+FROM yeop2/gpt2-prideandprejudice
 
 WORKDIR /workspace
 
