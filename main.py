@@ -5,7 +5,6 @@ import asyncio
 import torch
 from ain.ain import Ain
 from flask import Flask, request
-from ain.utils import toChecksumAddress
 from ain.types import ValueOnlyTransactionInput
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
