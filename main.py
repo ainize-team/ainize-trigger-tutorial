@@ -18,8 +18,7 @@ model.to(device)
 # connect to a test node
 ain = Ain('https://dev-api.ainetwork.ai/', chainId=None)
 AINIZE_PRIVATE_KEY = os.environ['AINIZE_PRIVATE_KEY']
-ADDRESS = toChecksumAddress(ain.wallet.add(AINIZE_PRIVATE_KEY))
-ain.wallet.addAndSetDefaultAccount(ADDRESS)
+ain.wallet.addAndSetDefaultAccount(AINIZE_PRIVATE_KEY)
 
 # ain-py
 loop = asyncio.get_event_loop()
