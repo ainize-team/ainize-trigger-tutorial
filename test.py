@@ -15,7 +15,7 @@ device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
 # connect to a test node
-ain = Ain('https://testnet-api.ainetwork.ai', chainId=None)
+ain = Ain('https://dev-api.ainetwork.ai/', chainId=None)
 PRIVATE_KEY = os.environ['PRIVATE_KEY']
 ADDRESS = toChecksumAddress(ain.wallet.add(PRIVATE_KEY))
 ain.wallet.setDefaultAccount(ADDRESS)
