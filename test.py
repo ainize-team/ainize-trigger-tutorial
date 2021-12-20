@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 import asyncio
 import torch
 from ain.ain import Ain
@@ -9,23 +10,22 @@ from ain.types import ValueOnlyTransactionInput
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 
 # load model, tokenizer
-model = GPT2LMHeadModel.from_pretrained("./GPT2-PrideAndPrejudice")
-tokenizer = GPT2Tokenizer.from_pretrained("./GPT2-PrideAndPrejudice")
+model = GPT2LMHeadModel.from_pretrained('./GPT2-PrideAndPrejudice')
+tokenizer = GPT2Tokenizer.from_pretrained('./GPT2-PrideAndPrejudice')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
 # connect to a test node
 ain = Ain('https://dev-api.ainetwork.ai/', chainId=None)
-PRIVATE_KEY = os.environ['PRIVATE_KEY']
-ADDRESS = toChecksumAddress(ain.wallet.add(PRIVATE_KEY))
-ain.wallet.setDefaultAccount(ADDRESS)
+AINIZE_PRIVATE_KEY = os.environ['AINIZE_PRIVATE_KEY']
+ADDRESS = toChecksumAddress(ain.wallet.add(AINIZE_PRIVATE_KEY))
+ain.wallet.addAndSetDefaultAccount(ADDRESS)
 
 # ain-py
 loop = asyncio.get_event_loop()
 
 # flask
 app = Flask(__name__)
-
 
 async def set_value(ref, value):
     result = await ain.db.ref(ref).setValue(
@@ -34,7 +34,6 @@ async def set_value(ref, value):
             nonce=-1
         )
     )
-
 
 def make_story(base_text, length):
     try:
@@ -54,12 +53,12 @@ def make_story(base_text, length):
     except Exception as e:
         print('Error occur in script generating!', e)
 
-
 @app.route('/trigger', methods=['POST'])
 def trigger():
     res = json.loads(request.data.decode('utf-8'))
-    if (not res.get('transaction')) or (not res['transaction'].get('tx_body')) or \
-            (not res['transaction']['tx_body'].get('operation')):
+    if (not res.get('transaction') or
+            not res['transaction'].get('tx_body') or
+            not res['transaction']['tx_body'].get('operation')):
         return f'Invalid transaction : {res}', 400
     transaction = res['transaction']['tx_body']['operation']
     tx_type = transaction['type']
@@ -73,6 +72,7 @@ def trigger():
         result_ref = '/'.join(result_ref)
         loop.run_until_complete(set_value(result_ref, result))
     except Exception as e:
+        logging.error(f'setValue failure : {e}')
         return f'setValue failure : {e}', 500
     return '', 204
 
