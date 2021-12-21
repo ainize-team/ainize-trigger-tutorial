@@ -14,9 +14,10 @@ tokenizer = GPT2Tokenizer.from_pretrained('./GPT2-PrideAndPrejudice')
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model.to(device)
 
-# connect to a test node
-ain = Ain('https://dev-api.ainetwork.ai/', chainId=None)
+# connect node
+PROVIDER_URL = os.environ['PROVIDER_URL']
 AINIZE_PRIVATE_KEY = os.environ['AINIZE_PRIVATE_KEY']
+ain = Ain(PROVIDER_URL, chainId=None)
 ain.wallet.addAndSetDefaultAccount(AINIZE_PRIVATE_KEY)
 
 # ain-py
@@ -49,7 +50,7 @@ def make_story(base_text, length):
         return result
 
     except Exception as e:
-        print('Error occur in script generating!', e)
+        logging.error(f'Error occur in script generating : {e}')
 
 @app.route('/trigger', methods=['POST'])
 def trigger():
