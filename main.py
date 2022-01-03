@@ -17,7 +17,7 @@ model.to(device)
 # connect node
 PROVIDER_URL = os.environ['PROVIDER_URL']
 AINIZE_PRIVATE_KEY = os.environ['AINIZE_PRIVATE_KEY']
-ain = Ain(PROVIDER_URL, chainId=None)
+ain = Ain(PROVIDER_URL, chainId=0)
 ain.wallet.addAndSetDefaultAccount(AINIZE_PRIVATE_KEY)
 
 # ain-py
