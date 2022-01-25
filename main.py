@@ -30,6 +30,7 @@ async def set_value(ref, value):
             nonce=-1
         )
     )
+    print(result)
 
 def make_story(base_text, length):
     try:
