@@ -17,11 +17,8 @@ model.to(device)
 # connect node
 PROVIDER_URL = os.environ['PROVIDER_URL']
 AINIZE_INTERNAL_PRIVATE_KEY = os.environ['AINIZE_INTERNAL_PRIVATE_KEY']
-ain = Ain(PROVIDER_URL, chainId=0)
+ain = Ain(PROVIDER_URL, chainId=None)
 ain.wallet.addAndSetDefaultAccount(AINIZE_INTERNAL_PRIVATE_KEY)
-
-# ain-py
-loop = asyncio.get_event_loop()
 
 # flask
 app = Flask(__name__)
@@ -69,7 +66,7 @@ def trigger():
         result_ref = transaction['ref'].split('/')[:-1]
         result_ref.append('result')
         result_ref = '/'.join(result_ref)
-        loop.run_until_complete(set_value(result_ref, result))
+        asyncio.run(set_value(result_ref, result))
     except Exception as e:
         logging.error(f'setValue failure : {e}')
         return f'setValue failure : {e}', 500
