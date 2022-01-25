@@ -63,7 +63,7 @@ def trigger():
     tx_type = transaction['type']
     if tx_type != 'SET_VALUE':
         return f'Not supported transaction type : {tx_type}', 400
-    value = transaction['value']
+    value = eval(transaction['value'])
     result = make_story(value['baseText'], value['len'])
     try:
         result_ref = transaction['ref'].split('/')[:-1]
