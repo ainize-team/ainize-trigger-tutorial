@@ -17,7 +17,7 @@ model.to(device)
 # connect node
 PROVIDER_URL = os.environ['PROVIDER_URL']
 AINIZE_INTERNAL_PRIVATE_KEY = os.environ['AINIZE_INTERNAL_PRIVATE_KEY']
-ain = Ain(PROVIDER_URL, chainId=None)
+ain = Ain(PROVIDER_URL, chainId=1)
 ain.wallet.addAndSetDefaultAccount(AINIZE_INTERNAL_PRIVATE_KEY)
 
 # flask
